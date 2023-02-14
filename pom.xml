@@ -7,7 +7,10 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<modules>
 		<module>gxl-rpc-doc</module>
-		<module>gxlrpc-annotation</module>
+		<module>gxl-rpc-annotation</module>
+		<module>gxl-rpc-common</module>
+		<module>gxl-rpc-test</module>
+		<module>gxl-rpc-test/gxl-rpc-test-scanner</module>
 	</modules>
 	<packaging>pom</packaging>
 
