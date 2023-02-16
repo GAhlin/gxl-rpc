@@ -16,6 +16,7 @@
 		<module>gxl-rpc-provider/gxl-rpc-provider-native</module>
 		<module>gxl-rpc-test/gxl-rpc-test-provider</module>
 		<module>gxl-rpc-protocol</module>
+		<module>gxl-rpc-constants</module>
 	</modules>
 	<packaging>pom</packaging>
 
