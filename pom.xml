@@ -11,6 +11,11 @@
 		<module>gxl-rpc-common</module>
 		<module>gxl-rpc-test</module>
 		<module>gxl-rpc-test/gxl-rpc-test-scanner</module>
+		<module>gxl-rpc-provider</module>
+		<module>gxl-rpc-provider/gxl-rpc-provider-common</module>
+		<module>gxl-rpc-provider/gxl-rpc-provider-native</module>
+		<module>gxl-rpc-test/gxl-rpc-test-provider</module>
+		<module>gxl-rpc-protocol</module>
 	</modules>
 	<packaging>pom</packaging>
 

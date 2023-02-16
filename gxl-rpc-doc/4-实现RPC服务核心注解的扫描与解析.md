@@ -1,5 +1,5 @@
 ## 一、文章总体结构
-![img_9.png](img_9.png)
+![img_9.png](img/img_9.png)
 
 ## 二、设计思路
 
