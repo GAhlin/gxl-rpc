@@ -28,9 +28,9 @@
 见@RpcService
 ```java
 /**
- * @author binghe
+ * @author gxl
  * @version 1.0.0
- * @description bhrpc服务提供者注解
+ * @description gxl-rpc服务提供者注解
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -65,14 +65,14 @@ public @interface RpcService {
 
 
 ```java
-@RpcService(interfaceClass=BingheService.class, version="1.0.0", group = "binghe")
+@RpcService(interfaceClass=gxlService.class, version="1.0.0", group = "gxl")
 public class GxlServiceImpl implements GxlService{
 //此处省略
 }
 ```
 如果使用interfaceClassName属性的话，就需要标注实现服务的接口的完整类名，使用的注解形式如下所示。
 ```java
-@RpcService(interfaceClassName="io.binghe.rpc.demo.service.BingheService", version="1.0.0", group="binghe")
+@RpcService(interfaceClassName="io.gxl.rpc.demo.service.gxlService", version="1.0.0", group="gxl")
 public class GxlServiceImpl implements GxlService{
     //此处省略
 }
@@ -110,9 +110,9 @@ public class GxlServiceImpl implements GxlService{
 
 ```java
 /**
- * @author binghe
+ * @author gxl
  * @version 1.0.0
- * @description bhrpc服务消费者
+ * @description gxl-rpc服务消费者
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
@@ -182,13 +182,13 @@ public @interface RpcReference {
 ```java
 @Service //Spring的@Service注解
 public class ConsumerServiceImpl implements ConsumerService{
-    @RpcReference(registryType = "zookeeper", registryAddress = "127.0.0.1:2181", loadBalanceType = "zkconsistenthash", version = "1.0.0", group = "binghe", serializationType = "protostuff", proxy = "cglib", timeout = 30000, async = true, oneway=false)
+    @RpcReference(registryType = "zookeeper", registryAddress = "127.0.0.1:2181", loadBalanceType = "zkconsistenthash", version = "1.0.0", group = "gxl", serializationType = "protostuff", proxy = "cglib", timeout = 30000, async = true, oneway=false)
     private GxlService gxlService;
      //此处省略
 }
 ```
 
-可以看到，作为使用样例，我们在BingheService上使用的@RpcReference注解几乎涵盖了注解的所有属性，在实际使用的过程中，由于 @RpcReference注解中提供了部分属性的默认值，如果实际环境与@RpcReference注解的默认值相同的话，大家可以根据实际情况省略部分注解属性的配置。
+可以看到，作为使用样例，我们在gxlService上使用的@RpcReference注解几乎涵盖了注解的所有属性，在实际使用的过程中，由于 @RpcReference注解中提供了部分属性的默认值，如果实际环境与@RpcReference注解的默认值相同的话，大家可以根据实际情况省略部分注解属性的配置。
 
 
 

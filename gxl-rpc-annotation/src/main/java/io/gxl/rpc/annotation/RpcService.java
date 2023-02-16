@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 /**
  * @author guoxiaolin
  * @date 2023/2/14
- * @description bhrpc服务提供者注解
+ * @description gxl-rpc服务提供者注解
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

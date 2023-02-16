@@ -26,7 +26,7 @@ public class RpcTestConsumerHandler extends SimpleChannelInboundHandler<RpcProto
         RpcProtocol<RpcRequest> protocol = new RpcProtocol<RpcRequest>();
         protocol.setHeader(RpcHeaderFactory.getRpcRequestHeader("jdk"));
         RpcRequest request = new RpcRequest();
-        request.setClassName("io.gxl.rpc.test.DemoService");
+        request.setClassName("io.gxl.rpc.test.api.DemoService");
         request.setGroup("gxl");
         request.setMethodName("hello");
         request.setParameters(new Object[]{"gxl"});

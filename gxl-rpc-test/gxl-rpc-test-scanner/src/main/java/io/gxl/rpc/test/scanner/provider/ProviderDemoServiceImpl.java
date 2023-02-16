@@ -2,6 +2,8 @@ package io.gxl.rpc.test.scanner.provider;
 
 import io.gxl.rpc.annotation.RpcService;
 import io.gxl.rpc.test.scanner.service.DemoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author guoxiaolin

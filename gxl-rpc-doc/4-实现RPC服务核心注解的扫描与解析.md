@@ -306,7 +306,7 @@ public class ProviderDemoServiceImpl implements DemoService {
 
 ```
 #### 6.1.2 完善服务消费者测试用例
-（1）在bhrpc-test-scanner子工程模块下创建io.binghe.rpc.test.scanner.consumer.service包，并在io.binghe.rpc.test.scanner.consumer.service 包下新建ConsumerBusinessService接口，表示服务消费者端的业务逻辑接口，ConsumerBusinessService接口的代码如下所示。
+（1）在gxl-rpc-test-scanner子工程模块下创建io.gxl.rpc.test.scanner.consumer.service包，并在io.gxl.rpc.test.scanner.consumer.service 包下新建ConsumerBusinessService接口，表示服务消费者端的业务逻辑接口，ConsumerBusinessService接口的代码如下所示。
 ```java
 /**
  * @author gxl

@@ -1,4 +1,4 @@
-package io.gxl.rpc.test.provider.service;
+package io.gxl.rpc.test.provider.single;
 
 
 import io.gxl.rpc.provider.RpcSingleServer;

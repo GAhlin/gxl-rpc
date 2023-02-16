@@ -23,6 +23,7 @@
 		<module>gxl-rpc-codec</module>
 		<module>gxl-rpc-test/gxl-rpc-test-consumer</module>
 		<module>gxl-rpc-test/gxl-rpc-test-consumer/gxl-rpc-test-consumer-codec</module>
+		<module>gxl-rpc-test/gxl-rpc-test-api</module>
 	</modules>
 	<packaging>pom</packaging>
 
