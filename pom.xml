@@ -21,6 +21,8 @@
 		<module>gxl-rpc-serialization/gxl-rpc-serialization-api</module>
 		<module>gxl-rpc-serialization/gxl-rpc-serialization-jdk</module>
 		<module>gxl-rpc-codec</module>
+		<module>gxl-rpc-test/gxl-rpc-test-consumer</module>
+		<module>gxl-rpc-test/gxl-rpc-test-consumer/gxl-rpc-test-consumer-codec</module>
 	</modules>
 	<packaging>pom</packaging>
 
@@ -43,10 +45,16 @@
 		<hessian.version>4.0.63</hessian.version>
 		<kyro.version>5.2.0</kyro.version>
 		<fst.version>2.57</fst.version>
+		<fastjson.version>1.2.73</fastjson.version>
 		<spring.boot.version>2.2.6.RELEASE</spring.boot.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
+		</dependency>
 		<!-- SLF4J -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

@@ -10,14 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gxl-rpc-provider-common</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>com.gxl</groupId>
-            <artifactId>gxl-rpc-codec</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
+    <artifactId>gxl-rpc-test-consumer</artifactId>
 
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
