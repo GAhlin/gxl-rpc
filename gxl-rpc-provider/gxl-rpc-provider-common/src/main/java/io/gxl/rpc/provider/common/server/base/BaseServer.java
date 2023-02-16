@@ -1,5 +1,7 @@
 package io.gxl.rpc.provider.common.server.base;
 
+import io.gxl.rpc.codec.RpcDecoder;
+import io.gxl.rpc.codec.RpcEncoder;
 import io.gxl.rpc.provider.common.handler.RpcProviderHandler;
 import io.gxl.rpc.provider.common.server.api.Server;
 import io.netty.bootstrap.ServerBootstrap;
@@ -51,9 +53,9 @@ public class BaseServer implements Server {
                         @Override
                         protected void initChannel(SocketChannel channel) throws Exception {
                             channel.pipeline()
-                                    //TODO 预留编解码，需要实现自定义协议
-                                    .addLast(new StringDecoder())
-                                    .addLast(new StringEncoder())
+                                    // 自定义的编解码器
+                                    .addLast(new RpcDecoder())
+                                    .addLast(new RpcEncoder())
                                     .addLast(new RpcProviderHandler(handlerMap));
                         }
                     })
