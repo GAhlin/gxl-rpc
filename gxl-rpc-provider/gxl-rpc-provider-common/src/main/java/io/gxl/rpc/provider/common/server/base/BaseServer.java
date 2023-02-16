@@ -35,12 +35,15 @@ public class BaseServer implements Server {
     //存储的是实体类关系
     protected Map<String, Object> handlerMap = new HashMap<>();
 
-    public BaseServer(String serverAddress){
+    private String reflectType;
+
+    public BaseServer(String serverAddress, String reflectType){
         if (!StringUtils.isEmpty(serverAddress)){
             String[] serverArray = serverAddress.split(":");
             this.host = serverArray[0];
             this.port = Integer.parseInt(serverArray[1]);
         }
+        this.reflectType = reflectType;
     }
     @Override
     public void startNettyServer() {
@@ -56,7 +59,7 @@ public class BaseServer implements Server {
                                     // 自定义的编解码器
                                     .addLast(new RpcDecoder())
                                     .addLast(new RpcEncoder())
-                                    .addLast(new RpcProviderHandler(handlerMap));
+                                    .addLast(new RpcProviderHandler(reflectType, handlerMap));
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG,128)
