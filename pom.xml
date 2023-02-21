@@ -24,7 +24,10 @@
 		<module>gxl-rpc-test/gxl-rpc-test-consumer</module>
 		<module>gxl-rpc-test/gxl-rpc-test-consumer/gxl-rpc-test-consumer-codec</module>
 		<module>gxl-rpc-test/gxl-rpc-test-api</module>
-	</modules>
+        <module>gxl-rpc-consumer</module>
+		<module>gxl-rpc-consumer/gxl-rpc-consumer-common</module>
+        <module>gxl-rpc-test/gxl-rpc-test-consumer/gxl-rpc-test-consumer-handler</module>
+    </modules>
 	<packaging>pom</packaging>
 
 	<properties>
