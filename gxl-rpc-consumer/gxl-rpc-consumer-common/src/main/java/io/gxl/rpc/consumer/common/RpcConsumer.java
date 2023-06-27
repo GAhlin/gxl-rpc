@@ -39,10 +39,10 @@ public class RpcConsumer {
                 .handler(new RpcConsumerInitializer());
     }
 
-    public static RpcConsumer getInstance(){
-        if (instance == null){
-            synchronized (RpcConsumer.class){
-                if (instance == null){
+    public static RpcConsumer getInstance() {
+        if (instance == null) {
+            synchronized (RpcConsumer.class) {
+                if (instance == null) {
                     instance = new RpcConsumer();
                 }
             }
@@ -50,7 +50,7 @@ public class RpcConsumer {
         return instance;
     }
 
-    public void close(){
+    public void close() {
         eventLoopGroup.shutdownGracefully();
     }
 
@@ -61,15 +61,16 @@ public class RpcConsumer {
         String key = serviceAddress.concat("_").concat(String.valueOf(port));
         RpcConsumerHandler handler = handlerMap.get(key);
         //缓存中无RpcClientHandler
-        if (handler == null){
+        if (handler == null) {
             handler = getRpcConsumerHandler(serviceAddress, port);
             handlerMap.put(key, handler);
-        }else if (!handler.getChannel().isActive()){  //缓存中存在RpcClientHandler，但不活跃
+        } else if (!handler.getChannel().isActive()) {  //缓存中存在RpcClientHandler，但不活跃
             handler.close();
             handler = getRpcConsumerHandler(serviceAddress, port);
             handlerMap.put(key, handler);
         }
-        return handler.sendRequest(protocol);
+        RpcRequest request = protocol.getBody();
+        return handler.sendRequest(protocol, request.getAsync(), request.getOneway());
     }
 
     /**

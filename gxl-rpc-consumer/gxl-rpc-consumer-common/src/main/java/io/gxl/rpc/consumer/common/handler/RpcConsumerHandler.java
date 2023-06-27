@@ -1,6 +1,7 @@
 package io.gxl.rpc.consumer.common.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import io.gxl.rpc.consumer.common.context.RpcContext;
 import io.gxl.rpc.consumer.common.future.RPCFuture;
 import io.gxl.rpc.protocol.RpcProtocol;
 import io.gxl.rpc.protocol.header.RpcHeader;
@@ -66,11 +67,10 @@ public class RpcConsumerHandler extends SimpleChannelInboundHandler<RpcProtocol<
     /**
      * 服务消费者向服务提供者发送请求
      */
-    public RPCFuture sendRequest(RpcProtocol<RpcRequest> protocol){
+    public RPCFuture sendRequest(RpcProtocol<RpcRequest> protocol, boolean async, boolean oneway){
         logger.info("服务消费者发送的数据===>>>{}", JSONObject.toJSONString(protocol));
-        RPCFuture rpcFuture = this.getRpcFuture(protocol);
-        channel.writeAndFlush(protocol);
-        return rpcFuture;
+        return oneway ? this.sendRequestOneway(protocol) : async ?
+                sendRequestAsync(protocol) : this.sendRequestSync(protocol);
     }
 
     private RPCFuture getRpcFuture(RpcProtocol<RpcRequest> protocol) {
@@ -80,6 +80,41 @@ public class RpcConsumerHandler extends SimpleChannelInboundHandler<RpcProtocol<
         pendingRPC.put(requestId, rpcFuture);
         return rpcFuture;
     }
+
+    /**
+     * 同步调用的方法
+     * @param protocol
+     * @return
+     */
+    private RPCFuture sendRequestSync(RpcProtocol<RpcRequest> protocol) {
+        RPCFuture rpcFuture = this.getRpcFuture(protocol);
+        channel.writeAndFlush(protocol);
+        return rpcFuture;
+    }
+
+    /**
+     * 异步调用的方法
+     * @param protocol
+     * @return
+     */
+    private RPCFuture sendRequestAsync(RpcProtocol<RpcRequest> protocol) {
+        RPCFuture rpcFuture = this.getRpcFuture(protocol);
+        //如果是异步调用，则将RPCFuture放入RpcContext
+        RpcContext.getContext().setRPCFuture(rpcFuture);
+        channel.writeAndFlush(protocol);
+        return null;
+    }
+
+    /**
+     * 单向调用的方法
+     * @param protocol
+     * @return
+     */
+    private RPCFuture sendRequestOneway(RpcProtocol<RpcRequest> protocol) {
+        channel.writeAndFlush(protocol);
+        return null;
+    }
+
 
     public void close() {
         channel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
