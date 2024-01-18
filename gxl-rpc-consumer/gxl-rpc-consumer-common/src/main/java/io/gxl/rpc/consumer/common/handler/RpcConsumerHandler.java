@@ -2,11 +2,11 @@ package io.gxl.rpc.consumer.common.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import io.gxl.rpc.consumer.common.context.RpcContext;
-import io.gxl.rpc.consumer.common.future.RPCFuture;
 import io.gxl.rpc.protocol.RpcProtocol;
 import io.gxl.rpc.protocol.header.RpcHeader;
 import io.gxl.rpc.protocol.request.RpcRequest;
 import io.gxl.rpc.protocol.response.RpcResponse;
+import io.gxl.rpc.proxy.api.future.RPCFuture;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;

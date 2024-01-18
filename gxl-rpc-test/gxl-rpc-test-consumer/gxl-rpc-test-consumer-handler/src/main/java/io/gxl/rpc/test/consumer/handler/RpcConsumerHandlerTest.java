@@ -1,11 +1,10 @@
 package io.gxl.rpc.test.consumer.handler;
-
 import io.gxl.rpc.consumer.common.RpcConsumer;
-import io.gxl.rpc.consumer.common.callback.AsyncRPCCallback;
-import io.gxl.rpc.consumer.common.future.RPCFuture;
 import io.gxl.rpc.protocol.RpcProtocol;
 import io.gxl.rpc.protocol.header.RpcHeaderFactory;
 import io.gxl.rpc.protocol.request.RpcRequest;
+import io.gxl.rpc.proxy.api.callback.AsyncRPCCallback;
+import io.gxl.rpc.proxy.api.future.RPCFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

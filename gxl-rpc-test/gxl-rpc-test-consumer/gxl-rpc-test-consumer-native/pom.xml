@@ -10,23 +10,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gxl-rpc-test-consumer-handler</artifactId>
+    <artifactId>gxl-rpc-test-consumer-native</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.gxl</groupId>
-            <artifactId>gxl-rpc-consumer-common</artifactId>
+            <artifactId>gxl-rpc-consumer-native</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.gxl</groupId>
-            <artifactId>gxl-rpc-protocol</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.gxl</groupId>
-            <artifactId>gxl-rpc-proxy</artifactId>
+            <artifactId>gxl-rpc-test-api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

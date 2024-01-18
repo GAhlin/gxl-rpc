@@ -1,4 +1,4 @@
-package io.gxl.rpc.consumer.common.callback;
+package io.gxl.rpc.proxy.api.callback;
 
 /**
  * @author guoxiaolin

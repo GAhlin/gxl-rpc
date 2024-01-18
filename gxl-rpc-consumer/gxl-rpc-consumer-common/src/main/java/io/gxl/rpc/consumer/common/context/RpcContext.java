@@ -1,6 +1,6 @@
 package io.gxl.rpc.consumer.common.context;
 
-import io.gxl.rpc.consumer.common.future.RPCFuture;
+import io.gxl.rpc.proxy.api.future.RPCFuture;
 
 /**
  * @author guoxiaolin

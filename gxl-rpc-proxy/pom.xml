@@ -6,27 +6,20 @@
         <artifactId>gxl-rpc</artifactId>
         <groupId>com.gxl</groupId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gxl-rpc-test-consumer-handler</artifactId>
+    <artifactId>gxl-rpc-proxy</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.gxl</groupId>
-            <artifactId>gxl-rpc-consumer-common</artifactId>
+            <artifactId>gxl-rpc-common</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.gxl</groupId>
             <artifactId>gxl-rpc-protocol</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.gxl</groupId>
-            <artifactId>gxl-rpc-proxy</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

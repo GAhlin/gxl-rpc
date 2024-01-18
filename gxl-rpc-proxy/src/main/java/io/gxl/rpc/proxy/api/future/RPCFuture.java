@@ -1,10 +1,9 @@
-package io.gxl.rpc.consumer.common.future;
-
+package io.gxl.rpc.proxy.api.future;
 import io.gxl.rpc.common.scanner.threadpool.ClientThreadPool;
-import io.gxl.rpc.consumer.common.callback.AsyncRPCCallback;
 import io.gxl.rpc.protocol.RpcProtocol;
 import io.gxl.rpc.protocol.request.RpcRequest;
 import io.gxl.rpc.protocol.response.RpcResponse;
+import io.gxl.rpc.proxy.api.callback.AsyncRPCCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

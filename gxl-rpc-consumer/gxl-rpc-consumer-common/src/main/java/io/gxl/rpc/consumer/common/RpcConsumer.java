@@ -1,11 +1,12 @@
 package io.gxl.rpc.consumer.common;
 
 import io.gxl.rpc.common.scanner.threadpool.ClientThreadPool;
-import io.gxl.rpc.consumer.common.future.RPCFuture;
 import io.gxl.rpc.consumer.common.handler.RpcConsumerHandler;
 import io.gxl.rpc.consumer.common.initializer.RpcConsumerInitializer;
 import io.gxl.rpc.protocol.RpcProtocol;
 import io.gxl.rpc.protocol.request.RpcRequest;
+import io.gxl.rpc.proxy.api.consumer.Consumer;
+import io.gxl.rpc.proxy.api.future.RPCFuture;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -23,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2023/2/21
  * @description
  */
-public class RpcConsumer {
+public class RpcConsumer implements Consumer {
 
     private final Logger logger = LoggerFactory.getLogger(RpcConsumer.class);
     private final Bootstrap bootstrap;
