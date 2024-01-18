@@ -1,7 +1,9 @@
 package io.gxl.rpc.consumer;
 
 import io.gxl.rpc.consumer.common.RpcConsumer;
+import io.gxl.rpc.proxy.api.ProxyFactory;
 import io.gxl.rpc.proxy.api.async.IAsyncObjectProxy;
+import io.gxl.rpc.proxy.api.config.ProxyConfig;
 import io.gxl.rpc.proxy.api.object.ObjectProxy;
 import io.gxl.rpc.proxy.jdk.JdkProxyFactory;
 import org.slf4j.Logger;
@@ -47,8 +49,9 @@ public class RpcClient {
         this.oneway = oneway;
     }
     public <T> T create(Class<T> interfaceClass) {
-        JdkProxyFactory<T> jdkProxyFactory = new JdkProxyFactory<T>(serviceVersion, serviceGroup, serializationType, timeout, RpcConsumer.getInstance(), async, oneway);
-        return jdkProxyFactory.getProxy(interfaceClass);
+        ProxyFactory proxyFactory = new JdkProxyFactory<T>();
+        proxyFactory.init(new ProxyConfig(interfaceClass, serviceVersion, serviceGroup, serializationType, timeout, RpcConsumer.getInstance(), async, oneway));
+        return proxyFactory.getProxy(interfaceClass);
     }
 
     public void shutdown() {
