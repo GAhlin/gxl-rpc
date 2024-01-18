@@ -1,6 +1,8 @@
 package io.gxl.rpc.consumer;
 
 import io.gxl.rpc.consumer.common.RpcConsumer;
+import io.gxl.rpc.proxy.api.async.IAsyncObjectProxy;
+import io.gxl.rpc.proxy.api.object.ObjectProxy;
 import io.gxl.rpc.proxy.jdk.JdkProxyFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,5 +53,15 @@ public class RpcClient {
 
     public void shutdown() {
         RpcConsumer.getInstance().close();
+    }
+
+    /**
+     * 用于构建异步化调用对象
+     * @param interfaceClass
+     * @return
+     * @param <T>
+     */
+    public <T> IAsyncObjectProxy createAsync(Class<T> interfaceClass) {
+        return new ObjectProxy<T>(interfaceClass, serviceVersion, serviceGroup, serializationType, timeout, RpcConsumer.getInstance(), async, oneway);
     }
 }

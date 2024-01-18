@@ -3,6 +3,7 @@ package io.gxl.rpc.proxy.api.object;
 import io.gxl.rpc.protocol.RpcProtocol;
 import io.gxl.rpc.protocol.header.RpcHeaderFactory;
 import io.gxl.rpc.protocol.request.RpcRequest;
+import io.gxl.rpc.proxy.api.async.IAsyncObjectProxy;
 import io.gxl.rpc.proxy.api.consumer.Consumer;
 import io.gxl.rpc.proxy.api.future.RPCFuture;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2024/1/18
  * @description
  */
-public class ObjectProxy <T> implements InvocationHandler {
+public class ObjectProxy <T> implements IAsyncObjectProxy, InvocationHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(ObjectProxy.class);
     /**
      * 接口的Class对象
@@ -113,5 +114,70 @@ public class ObjectProxy <T> implements InvocationHandler {
         }
         RPCFuture rpcFuture = this.consumer.sendRequest(requestRpcProtocol);
         return rpcFuture == null ? null : timeout > 0 ? rpcFuture.get(timeout, TimeUnit.MILLISECONDS) : rpcFuture.get();
+    }
+
+    @Override
+    public RPCFuture call(String funcName, Object... args) {
+        RpcProtocol<RpcRequest> request = createRequest(this.clazz.getName(), funcName, args);
+        RPCFuture rpcFuture = null;
+        try {
+            rpcFuture = this.consumer.sendRequest(request);
+        } catch (Exception e) {
+            LOGGER.error("async all throws exception:{}", e);
+        }
+        return rpcFuture;
+    }
+
+    private RpcProtocol<RpcRequest> createRequest(String className, String methodName, Object[] args) {
+        RpcProtocol<RpcRequest> requestRpcProtocol = new RpcProtocol<RpcRequest>();
+        requestRpcProtocol.setHeader(RpcHeaderFactory.getRpcRequestHeader(serializationType));
+        RpcRequest request = new RpcRequest();
+        request.setClassName(className);
+        request.setMethodName(methodName);
+        request.setParameters(args);
+        request.setVersion(this.serviceVersion);
+        request.setGroup(this.serviceGroup);
+
+        Class[] parameterTypes = new Class[args.length];
+        // Get the right class type
+        for (int i = 0; i < args.length; i++) {
+            parameterTypes[i] = getClassType(args[i]);
+        }
+        request.setParameterTypes(parameterTypes);
+        requestRpcProtocol.setBody(request);
+
+        LOGGER.debug(className);
+        LOGGER.debug(methodName);
+        for (int i = 0; i < parameterTypes.length; ++i) {
+            LOGGER.debug(parameterTypes[i].getName());
+        }
+        for (int i = 0; i < args.length; ++i) {
+            LOGGER.debug(args[i].toString());
+        }
+        return requestRpcProtocol;
+    }
+
+    private Class<?> getClassType(Object obj){
+        Class<?> classType = obj.getClass();
+        String typeName = classType.getName();
+        switch (typeName){
+            case "java.lang.Integer":
+                return Integer.TYPE;
+            case "java.lang.Long":
+                return Long.TYPE;
+            case "java.lang.Float":
+                return Float.TYPE;
+            case "java.lang.Double":
+                return Double.TYPE;
+            case "java.lang.Character":
+                return Character.TYPE;
+            case "java.lang.Boolean":
+                return Boolean.TYPE;
+            case "java.lang.Short":
+                return Short.TYPE;
+            case "java.lang.Byte":
+                return Byte.TYPE;
+        }
+        return classType;
     }
 }

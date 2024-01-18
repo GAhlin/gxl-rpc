@@ -13,14 +13,20 @@
     <artifactId>gxl-rpc-test-consumer-native</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.gxl</groupId>
-            <artifactId>gxl-rpc-consumer-native</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.gxl</groupId>
             <artifactId>gxl-rpc-test-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.gxl</groupId>
+            <artifactId>gxl-rpc-consumer-native</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
