@@ -1,5 +1,6 @@
 package io.gxl.rpc.consumer.common;
 
+import io.gxl.rpc.common.scanner.threadpool.ClientThreadPool;
 import io.gxl.rpc.consumer.common.future.RPCFuture;
 import io.gxl.rpc.consumer.common.handler.RpcConsumerHandler;
 import io.gxl.rpc.consumer.common.initializer.RpcConsumerInitializer;
@@ -52,6 +53,8 @@ public class RpcConsumer {
 
     public void close() {
         eventLoopGroup.shutdownGracefully();
+        // 当关闭服务消费者的Netty服务时，一起关闭服务消费者的线程池
+        ClientThreadPool.shutdown();
     }
 
     public RPCFuture sendRequest(RpcProtocol<RpcRequest> protocol) throws Exception {

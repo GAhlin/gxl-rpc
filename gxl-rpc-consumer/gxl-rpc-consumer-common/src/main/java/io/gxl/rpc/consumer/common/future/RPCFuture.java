@@ -1,16 +1,21 @@
 package io.gxl.rpc.consumer.common.future;
 
+import io.gxl.rpc.common.scanner.threadpool.ClientThreadPool;
+import io.gxl.rpc.consumer.common.callback.AsyncRPCCallback;
 import io.gxl.rpc.protocol.RpcProtocol;
 import io.gxl.rpc.protocol.request.RpcRequest;
 import io.gxl.rpc.protocol.response.RpcResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author guoxiaolin
@@ -34,6 +39,16 @@ public class RPCFuture extends CompletableFuture<Object> {
      * RpcResponse类型的协议对象
      */
     private RpcProtocol<RpcResponse> responseRpcProtocol;
+
+    /**
+     * 存放回调接口
+     */
+    private List<AsyncRPCCallback> pendingCallbacks = new ArrayList<AsyncRPCCallback>();
+
+    /**
+     * 添加和执行回调方法时，进行加锁和解锁操作
+     */
+    private ReentrantLock lock = new ReentrantLock();
 
     /**
      * 开始时间
@@ -69,6 +84,54 @@ public class RPCFuture extends CompletableFuture<Object> {
             return this.responseRpcProtocol.getBody().getResult();
         } else {
             return null;
+        }
+    }
+
+    /**
+     * 用于异步执行回调方法
+     * @param callback
+     */
+    private void runCallback(final AsyncRPCCallback callback) {
+        final RpcResponse res = this.responseRpcProtocol.getBody();
+        ClientThreadPool.submit(() -> {
+            if (!res.isError()) {
+                callback.onSuccess(res.getResult());
+            } else {
+                callback.onException(new RuntimeException("Response error", new Throwable(res.getError())));
+            }
+        });
+    }
+
+    /**
+     * 用于外部服务添加回调接口实例对象到pendingCallbacks集合中
+     * @param callback
+     * @return
+     */
+    public RPCFuture addCallback(AsyncRPCCallback callback) {
+        lock.lock();
+        try {
+            if (isDone()) {
+                runCallback(callback);
+            } else {
+                this.pendingCallbacks.add(callback);
+            }
+        } finally {
+            lock.unlock();
+        }
+        return this;
+    }
+
+    /**
+     * 用于依次执行pendingCallbacks集合中回调接口的方法
+     */
+    private void invokeCallbacks() {
+        lock.lock();
+        try {
+            for (final AsyncRPCCallback callback : pendingCallbacks) {
+                runCallback(callback);
+            }
+        } finally {
+            lock.unlock();
         }
     }
 
@@ -109,11 +172,14 @@ public class RPCFuture extends CompletableFuture<Object> {
 
     /**
      * 当服务消费者接收到服务提供者响应的结果数据时，就会调用done()方法，并传入RpcResponse类型的协议对象，此时会唤醒阻塞的线程获取响应的结果数据
+     * 当唤醒线程时，执行invokeCallbacks()方法，以便服务消费者获取到服务提供者响应的结果数据后，立刻主动执行回调方法
      * @param responseRpcProtocol
      */
     public void done(RpcProtocol<RpcResponse> responseRpcProtocol) {
         this.responseRpcProtocol = responseRpcProtocol;
         sync.release(1);
+        //新增的调用invokeCallbacks()方法
+        invokeCallbacks();
         // Threshold
         long responseTime = System.currentTimeMillis() - startTime;
         if (responseTime > this.responseTimeThreshold) {

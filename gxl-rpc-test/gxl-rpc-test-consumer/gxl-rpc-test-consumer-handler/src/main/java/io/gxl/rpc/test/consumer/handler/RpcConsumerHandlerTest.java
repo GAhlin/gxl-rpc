@@ -1,6 +1,8 @@
 package io.gxl.rpc.test.consumer.handler;
 
 import io.gxl.rpc.consumer.common.RpcConsumer;
+import io.gxl.rpc.consumer.common.callback.AsyncRPCCallback;
+import io.gxl.rpc.consumer.common.future.RPCFuture;
 import io.gxl.rpc.protocol.RpcProtocol;
 import io.gxl.rpc.protocol.header.RpcHeaderFactory;
 import io.gxl.rpc.protocol.request.RpcRequest;
@@ -18,8 +20,18 @@ public class RpcConsumerHandlerTest {
 
     public static void main(String[] args) throws Exception {
         RpcConsumer consumer = RpcConsumer.getInstance();
-        Object result = consumer.sendRequest(getRpcRequestProtocol());
-        logger.info("从服务消费者获取到的数据===>>>" + result.toString());
+        RPCFuture rpcFuture = consumer.sendRequest(getRpcRequestProtocol());
+        rpcFuture.addCallback(new AsyncRPCCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                logger.info("从服务消费者获取到的数据===>>>" + result);
+            }
+            @Override
+            public void onException(Exception e) {
+                logger.info("抛出了异常===>>>" + e);
+            }
+        });
+        Thread.sleep(200);
         consumer.close();
     }
 
