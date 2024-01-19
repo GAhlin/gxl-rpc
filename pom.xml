@@ -30,7 +30,11 @@
         <module>gxl-rpc-proxy</module>
         <module>gxl-rpc-consumer/gxl-rpc-consumer-native</module>
 		<module>gxl-rpc-test/gxl-rpc-test-consumer/gxl-rpc-test-consumer-native</module>
-	</modules>
+        <module>gxl-rpc-registry</module>
+		<module>gxl-rpc-registry/gxl-rpc-registry-api</module>
+		<module>gxl-rpc-registry/gxl-rpc-registry-zookeeper</module>
+        <module>gxl-rpc-test/gxl-rpc-test-registry</module>
+    </modules>
 	<packaging>pom</packaging>
 
 	<properties>
